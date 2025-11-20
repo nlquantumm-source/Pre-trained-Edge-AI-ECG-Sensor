@@ -34,27 +34,37 @@
     <tr>
       <td><strong>Additive White Gaussian Noise (AWGN)</strong></td>
       <td>Thermal noise, quantization error, amplifier noise</td>
-      <td><img src="https://latex.codecogs.com/svg.latex?n_{\text{AWGN}}(t)%20=%20\sigma_g%20\cdot%20w(t),%20\quad%20w(t)\sim\mathcal{N}(0,1)" alt="n_AWGN(t) = sigma_g * w(t), w(t)~N(0,1)"></td>
+      <td><img src="https://latex.codecogs.com/svg.latex?\large%20n_{\text{AWGN}}(t)%20=%20\sigma_g%20\cdot%20w(t),\;%20w(t)\sim\mathcal{N}(0,1)" 
+           alt="AWGN model" 
+           title="Additive White Gaussian Noise"></td>
     </tr>
     <tr>
       <td><strong>Baseline Wander (BW)</strong></td>
       <td>Respiration, body movement, electrode drift</td>
-      <td><img src="https://latex.codecogs.com/svg.latex?n_{\text{BW}}(t)%20=%20A_{\text{bw}}\sin(2\pi\cdot0.25\cdot%20t)%20\text{or}%20\sum_{k=1}^{3}b_k\sin(2\pi%20k%20f_{\text{resp}}t%20+%20\phi_k)" alt="Baseline Wander model"></td>
+      <td><img src="https://latex.codecogs.com/svg.latex?\large%20n_{\text{BW}}(t)%20=%20A_{\text{bw}}\sin(2\pi%20f_{\text{resp}}t)%20\text{or}%20\sum_{k=1}^{3}b_k\sin(2\pi%20k%20f_{\text{resp}}t%20+%20\phi_k)" 
+           alt="Baseline Wander model" 
+           title="Baseline Wander"></td>
     </tr>
     <tr>
       <td><strong>Powerline Interference (PLI)</strong></td>
       <td>50/60 Hz electromagnetic coupling</td>
-      <td><img src="https://latex.codecogs.com/svg.latex?n_{\text{PL}}(t)%20=%20A_{\text{pl}}\sum_{k=1}^{H}c_k\sin(2\pi%20k%20f_{\text{pl}}t%20+%20\phi_k)" alt="n_PL(t) = A_pl sum c_k sin(2 pi k f_pl t + phi_k)"></td>
+      <td><img src="https://latex.codecogs.com/svg.latex?\large%20n_{\text{PL}}(t)%20=%20A_{\text{pl}}\sum_{k=1}^{H}c_k\sin(2\pi%20k%20f_{\text{pl}}t%20+%20\phi_k)" 
+           alt="Powerline Interference model" 
+           title="Powerline Interference"></td>
     </tr>
     <tr>
       <td><strong>Muscle Artifact (MA/EMG)</strong></td>
       <td>Skeletal muscle contraction, tremor, shivering</td>
-      <td><img src="https://latex.codecogs.com/svg.latex?n_{\text{MA}}(t)%20=%20\sigma_{\text{ma}}\cdot%20g(t)\cdot|1%20+%20m(t)|,%20\quad%20g(t)\text{: HPF}>15\,\text{Hz},\;m(t)\text{: 2--12 Hz envelope}" alt="Muscle artifact bursty model"></td>
+      <td><img src="https://latex.codecogs.com/svg.latex?\large%20n_{\text{MA}}(t)%20=%20\sigma_{\text{ma}}\cdot%20g(t)\cdot|1%20+%20m(t)|,\;%20g(t)\text{: HPF}>15\text{Hz},\;m(t)\text{: 2--12 Hz envelope}" 
+           alt="Muscle Artifact model" 
+           title="Muscle Artifact"></td>
     </tr>
     <tr>
       <td><strong>Electrode Motion Artifact (EM)</strong></td>
       <td>Skin stretching, loose contact, cable movement</td>
-      <td><img src="https://latex.codecogs.com/svg.latex?\text{MIT-BIH NSTDB ``em'' record (real recording, no reliable synthetic model)}" alt="EM: real NSTDB em record"></td>
+      <td><img src="https://latex.codecogs.com/svg.latex?\large%20\text{MIT-BIH NSTDB ``em'' record (real recording, no reliable synthetic model)}" 
+           alt="Electrode Motion Artifact" 
+           title="Electrode Motion Artifact"></td>
     </tr>
   </tbody>
 </table>
