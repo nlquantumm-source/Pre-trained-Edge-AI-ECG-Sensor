@@ -21,49 +21,10 @@
 * *EMG/muscle artifacts* (high-frequency modulated Gaussian) to train the TSPulse model on noisy-clean ECG pairs.<br /><br /><br />
 
 ## Algorithm & Mathematical Equation Use-case<br />
-<table>
-  <thead>
-    <tr>
-      <th>Noise Type</th>
-      <th>Real-World Cause</th>
-      <th>Standard Mathematical Model</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Additive White Gaussian Noise (AWGN)</strong></td>
-      <td>Thermal noise, quantization error, amplifier noise</td>
-      <td>
-        <img style="vertical-align:middle;" src="https://latex.codecogs.com/svg.latex?\color{white}\Large n_{\text{AWGN}}(t) = \sigma_g \cdot w(t),\quad w(t)\sim\mathcal{N}(0,1)" alt="AWGN main" /><br>
-        <img style="vertical-align:middle;" src="https://latex.codecogs.com/svg.latex?\color{white}\Large \sigma_g = \sqrt{\frac{P_s}{10^{\text{SNR[dB]}/10}}}" alt="SNR formula" />
-      </td>
-    </tr>
-    <tr>
-      <td><strong>Baseline Wander (BW)</strong></td>
-      <td>Respiration, body movement, electrode drift</td>
-      <td><img style="vertical-align:middle;" src="https://latex.codecogs.com/svg.latex?\color{white}\Large \sum_{k=1}^{3} b_k \sin(2\pi k f_{\text{resp}} t + \phi_k)" alt="BW model" /></td>
-    </tr>
-    <tr>
-      <td><strong>Powerline Interference (PLI)</strong></td>
-      <td>50/60 Hz electromagnetic coupling</td>
-      <td><img style="vertical-align:middle;" src="https://latex.codecogs.com/svg.latex?\color{white}\Large n_{\text{PL}}(t) = A_{\text{pl}}\sum_{k=1}^{H} c_k \sin(2\pi k f_{\text{pl}} t + \phi_k)" alt="PLI model" /></td>
-    </tr>
-    <tr>
-      <td><strong>Muscle Artifact (MA/EMG)</strong></td>
-      <td>Skeletal muscle contraction, tremor, shivering</td>
-      <td>Gold standard: MIT-BIH NSTDB "ma" record (real recorded EMG)<br><br>
-      <img style="vertical-align:middle;" src="https://latex.codecogs.com/svg.latex?\color{white}\Large n_{\text{MA}}(t) = \sigma_{\text{ma}}(t) \cdot g(t)" alt="MA main" /><br>
-      <span style="color:#cccccc;">g(t): band-pass 20-500 Hz Gaussian noise</span><br>
-      <span style="color:#cccccc;">σ_ma(t): low-frequency envelope (0.1-10 Hz)</span>
-      </td>
-    </tr>
-    <tr>
-      <td><strong>Electrode Motion Artifact (EM)</strong></td>
-      <td>Skin stretching, loose contact, cable movement</td>
-      <td>Gold standard: MIT-BIH NSTDB "em" record (real recording)<br><br>
-      <img style="vertical-align:middle;" src="https://latex.codecogs.com/svg.latex?\color{white}\Large n_{\text{EM}}(t) = \sum_i A_i \left(e^{-(t-t_i)/\tau_1} - e^{-(t-t_i)/\tau_2}\right)" alt="EM main" /><br>
-      <span style="color:#cccccc;">\tau_1 \gg \tau_2 (sharp rise + slow decay)</span>
-      </td>
-    </tr>
-  </tbody>
-</table>
+| Noise Type                          | Real-World Cause                              | Standard Mathematical Model                                                                                                           |
+|-------------------------------------|-----------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| **Additive White Gaussian Noise (AWGN)** | Thermal noise, quantization error, amplifier noise | $$ n_{\text{AWGN}}(t) = \sigma_g \cdot w(t), \quad w(t) \sim \mathcal{N}(0,1) $$ <br> $$ \sigma_g = \sqrt{\frac{P_s}{10^{\text{SNR[dB]}/10}}} $$ |
+| **Baseline Wander (BW)**            | Respiration, body movement, electrode drift   | $$ n_{\text{BW}}(t) = \sum_{k=1}^{3} b_k \sin(2\pi k f_{\text{resp}} t + \phi_k) $$ <br> $$ f_{\text{resp}} \in [0.15, 0.4]\ \text{Hz} $$ |
+| **Powerline Interference (PLI)**    | 50/60 Hz electromagnetic coupling          | $$ n_{\text{PL}}(t) = A_{\text{pl}} \sum_{k=1}^{H} c_k \sin(2\pi k f_{\text{pl}} t + \phi_k) $$ <br> (H = 1–5 harmonics) |
+| **Muscle Artifact (MA/EMG)**        | Skeletal muscle contraction, tremor, shivering | Gold standard: MIT-BIH NSTDB "ma" record (real recorded EMG) <br><br> **Synthetic model (most realistic & widely used):** <br> $$ n_{\text{MA}}(t) = \sigma_{\text{ma}}(t) \cdot g(t) $$ <br> $$ g(t)\ :\ \text{band-pass filtered white Gaussian noise (20–500 Hz)} $$ <br> $$ \sigma_{\text{ma}}(t)\ :\ \text{slow envelope (0.1–10 Hz)} $$ |
+| **Electrode Motion Artifact (EM)**  | Skin stretching, loose contact, cable movement | Gold standard: MIT-BIH NSTDB "em" record (real recording) <br><br> **Synthetic model (biphasic exponential pulse train):** <br> $$ n_{\text{EM}}(t) = \sum_i A_i \left( e^{-(t-t_i)/\tau_1} - e^{-(t-t_i)/\tau_2} \right) $$ <br> $$ \tau_1 \gg \tau_2\ \text{(sharp rise + slow decay)} $$ |
