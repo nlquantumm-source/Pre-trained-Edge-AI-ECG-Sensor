@@ -21,39 +21,10 @@
 * *EMG/muscle artifacts* (high-frequency modulated Gaussian) to train the TSPulse model on noisy-clean ECG pairs.<br /><br /><br />
 
 ## Algorithm & Mathematical Equation Use-case<br />
-<table>
-  <thead>
-    <tr>
-      <th>Noise Type</th>
-      <th>Real-World Cause</th>
-      <th>Standard Mathematical Model</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Additive White Gaussian Noise (AWGN)</strong></td>
-      <td>Thermal noise, quantization error, amplifier noise</td>
-      <td>$$ n_{\text{AWGN}}(t) = \sigma_g \cdot w(t),\quad w(t)\sim\mathcal{N}(0,1) $$<br>$$ \sigma_g \text{ set via target SNR: } \sigma_g = \sqrt{\frac{P_s}{10^{\text{SNR}/10}}} $$</td>
-    </tr>
-    <tr>
-      <td><strong>Baseline Wander (BW)</strong></td>
-      <td>Respiration, body movement, electrode drift</td>
-      <td>$$ n_{\text{BW}}(t) = A_{\text{bw}} \sin(2\pi f_{\text{resp}} t) $$<br>$$ \text{or multi-harmonic: } \sum_{k=1}^{3} b_k \sin(2\pi k f_{\text{resp}} t + \phi_k) $$<br>$$ f_{\text{resp}} \in [0.15, 0.4]\text{ Hz} $$</td>
-    </tr>
-    <tr>
-      <td><strong>Powerline Interference (PLI)</strong></td>
-      <td>50/60 Hz electromagnetic coupling</td>
-      <td>$$ n_{\text{PL}}(t) = A_{\text{pl}} \sum_{k=1}^{H} c_k \sin(2\pi k f_{\text{pl}} t + \phi_k) $$<br>$$ H = 1-5 \text{ harmonics} $$</td>
-    </tr>
-    <tr>
-      <td><strong>Muscle Artifact (MA/EMG)</strong></td>
-      <td>Skeletal muscle contraction, tremor, shivering</td>
-      <td>$$ \text{Real (gold standard): MIT-BIH NSTDB ``ma'' record} $$<br>$$ \text{Synthetic bursty model (most realistic approximation):} $$<br>$$ n_{\text{MA}}(t) = \sigma_{\text{ma}} \cdot g(t) \cdot |1 + m(t)| $$<br>$$ g(t):\ \text{HPF}>15\,\text{Hz}\ \mathcal{N}(0,1),\ m(t):\ 2-12\,\text{Hz envelope} $$</td>
-    </tr>
-    <tr>
-      <td><strong>Electrode Motion Artifact (EM)</strong></td>
-      <td>Skin stretching, loose contact, cable movement</td>
-      <td>$$ \text{Real (gold standard): MIT-BIH NSTDB ``em'' record (most reliable)} $$<br>$$ \text{Synthetic approximation (biphasic exponential transients, used in some studies):} $$<br>$$ n_{\text{EM}}(t) = \sum_{i} A_i \left( e^{-(t-t_i)/\tau_1} - e^{-(t-t_i)/\tau_2} \right) $$<br>$$ \tau_1 \ll \tau_2\ (sharp rise + slow decay),\ \text{random } A_i, t_i, \tau $$</td>
-    </tr>
-  </tbody>
-</table>
+| Noise Type                  | Real-World Cause                              | Standard Mathematical Model                                                                                                           |
+|-----------------------------|-----------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| **Additive White Gaussian Noise (AWGN)** | Thermal noise, quantization error, amplifier noise | $$ n_{\text{AWGN}}(t) = \sigma_g \cdot w(t),\quad w(t)\sim\mathcal{N}(0,1) $$<br>$$ \sigma_g = \sqrt{\frac{P_s}{10^{\text{SNR}/10}}} $$ |
+| **Baseline Wander (BW)**    | Respiration, body movement, electrode drift   | $$ n_{\text{BW}}(t) = A_{\text{bw}} \sin(2\pi f_{\text{resp}} t) $$<br>or multi-harmonic:<br>$$ \sum_{k=1}^{3} b_k \sin(2\pi k f_{\text{resp}} t + \phi_k) $$<br>$$ f_{\text{resp}} \in [0.15, 0.4]\text{ Hz} $$ |
+| **Powerline Interference (PLI)** | 50/60 Hz electromagnetic coupling             | $$ n_{\text{PL}}(t) = A_{\text{pl}} \sum_{k=1}^{H} c_k \sin(2\pi k f_{\text{pl}} t + \phi_k) $$<br>$$ H = 1-5 \text{ harmonics} $$ |
+| **Muscle Artifact (MA/EMG)** | Skeletal muscle contraction, tremor, shivering | Gold standard: MIT-BIH NSTDB “ma” record (real EMG)<br><br>Synthetic (most widely used realistic model):<br>$$ n_{\text{MA}}(t) = \sigma_{\text{ma}}(t) \cdot g(t) $$<br>$$ g(t) = \text{band-pass filtered (20–500 Hz) white Gaussian noise} $$<br>$$ \sigma_{\text{ma}}(t) = \text{low-frequency (0.1–10 Hz) envelope for bursts} $$ |
+| **Electrode Motion Artifact (EM)** | Skin stretching, loose contact, cable movement | Gold standard: MIT-BIH NSTDB “em” record (real recording)<br><br>Synthetic model (biphasic exponential pulse, used in literature when real data unavailable):<br>$$ n_{\text{EM},i}(t) = A_i \left( e^{-(t-t_i)/\tau_1} - e^{-(t-t_i)/\tau_2} \right) $$<br>$$ \tau_1 \gg \tau_2 \text{ (sharp rise + slow decay)},\ \text{random } A_i \in [-5,5]\text{ mV}, t_i, \tau_1 \approx 50\text{ ms}, \tau_2 \approx 5\text{ ms} $$<br>Sum over sporadic events $i$ |
