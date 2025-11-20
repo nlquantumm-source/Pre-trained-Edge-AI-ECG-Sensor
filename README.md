@@ -12,7 +12,7 @@
 * Use the *hybrid-dualhead-512-p8-r1* variant for imputation/denoising. It excels at zero-shot reconstruction and works perfectly with fine-tuning.<br /><br />
   
 ## Software Use-case
-* Use *Google Colab* when training AI model (Compatibility for majority of the embedding engineers out there).<br />
+* Use *Google Colab* when training AI model and generate API code for simple integration(Compatibility for majority of the embedding engineers out there).<br />
 * Real-time Arduino integration: 512-1024 samples and send data via Serial/WiFi.<br /><br />
 
 ## Synthetic Noise Application
