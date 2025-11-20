@@ -1,4 +1,4 @@
-# Edge-AI-Embedded-for-Sensor
+# Edge-AI-for-Sensor
 * Edge AI use-case for sensor denoising &amp; high accuracy purposes.<br />
 * As Sensors are being used in various industries, it's being used in various situations.<br />
 * In various situations, sensors are not capable to give you an accurate signal as it's disrupted.<br />
