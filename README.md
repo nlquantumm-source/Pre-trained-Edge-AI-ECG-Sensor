@@ -4,7 +4,7 @@
 * In various situations, sensors are not capable to give you an accurate signal as it's disrupted.<br />
 * In order to solve this problem, they needs to embedded with small size edge-AI to give you the reasonable signal.<br />
 * In this repository, we're going to focus on solving problems at medical field (ECG Sensor).<br />
-* ECG sensor is being used for detects and records the electrical activity of the heart, used in majority of the ER (Emergency) cases.<br />
+* ECG sensor is being used for detecting and recording the electrical activity of the heart, used in majority of the ER (Emergency) cases.<br />
 * As ECG sensor is being used in 79% of ER cases (122 million patients per year), it's being used in various situations and perform badly in 3% ~ 5% (3.7 million to 6.1 million patients per year).<br />
 * In order to help out 3.7 to 6.1 million patients per year from suffering through poor signal performance of ECG sensor, I brought a open-source soluation that can be easily embedded with majority of the ECG sensor.<br />
 * ECG sensor performs at low accuracy especially when patients are at respiration state (The process by which organisms produce energy from food), physical movement, and electrode contact issues (wrong placement which often happens).<br />
