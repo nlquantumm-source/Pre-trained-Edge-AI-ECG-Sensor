@@ -21,10 +21,44 @@
 * *EMG/muscle artifacts* (high-frequency modulated Gaussian) to train the TSPulse model on noisy-clean ECG pairs.<br /><br /><br />
 
 ## Algorithm & Mathematical Equation Use-case<br />
-| Noise Type                          | Real-World Cause                              | Standard Mathematical Model |
-|-------------------------------------|-----------------------------------------------|----------------------------|
-| **Additive White Gaussian Noise (AWGN)** | Thermal noise, quantization error, amplifier noise | $$ n_{\text{AWGN}}(t) = \sigma_g \cdot w(t), \quad w(t) \sim \mathcal{N}(0,1) $$ <br> $$ \sigma_g = \sqrt{\frac{P_s}{10^{\text{SNR}/10}}} $$ |
-| **Baseline Wander (BW)**            | Respiration, body movement, electrode drift   | $$ n_{\text{BW}}(t) = A_{\text{bw}} \sin(2\pi f_{\text{resp}} t) $$ <br> or multi-harmonic: <br $$ n_{\text{BW}}(t) = \sum_{k=1}^{3} b_k \sin(2\pi k f_{\text{resp}} t + \phi_k) $$ <br> $$ f_{\text{resp}} \in [0.15, 0.4]\ \text{Hz} $$ |
-| **Powerline Interference (PLI)**    | 50/60 Hz electromagnetic coupling             | $$ n_{\text{PL}}(t) = A_{\text{pl}} \sum_{k=1}^{H} c_k \sin(2\pi k f_{\text{pl}} t + \phi_k) $$ <br> (H = 1-5 harmonics) |
-| **Muscle Artifact (MA/EMG)**        | Skeletal muscle contraction, tremor, shivering | Gold standard: MIT-BIH NSTDB “ma” record (real) <br><br> Most realistic synthetic model (2020-2025 papers): <br> $$ n_{\text{MA}}(t) = \sigma_{\text{ma}}(t) \cdot g(t) $$ <br> $$ g(t) : \text{band-pass 20-500 Hz Gaussian noise} $$ <br> $$ \sigma_{\text{ma}}(t) : \text{low-frequency envelope (0.1-10 Hz)} $$ |
-| **Electrode Motion Artifact (EM)**   | Skin stretching, loose contact, cable movement | Gold standard: MIT-BIH NSTDB “em” record (real) <br><br> Widely used synthetic model: <br> $$ n_{\text{EM}}(t) = \sum_i A_i \left( e^{-(t-t_i)/\tau_1} - e^{-(t-t_i)/\tau_2} \right) $$ <br> $$ \tau_1 \gg \tau_2 \ (sharp rise + slow decay) $$ <br> random A_i, t_i, \tau_1 \approx 30-100 ms, \tau_2 \approx 3-10 ms $$ |
+<table>
+  <thead>
+    <tr>
+      <th>Noise Type</th>
+      <th>Real-World Cause</th>
+      <th>Standard Mathematical Model</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Additive White Gaussian Noise (AWGN)</strong></td>
+      <td>Thermal noise, quantization error, amplifier noise</td>
+      <td><img style="vertical-align:middle;" src="https://latex.codecogs.com/svg.latex?\color{white}\Large%20n_{\text{AWGN}}(t)%20=%20\sigma_g%20\cdot%20w(t),\quad%20w(t)\sim\mathcal{N}(0,1)" alt="AWGN" /><br>
+        <img style="vertical-align:middle;" src="https://latex.codecogs.com/svg.latex?\color{white}\Large%20\sigma_g%20=%20\sqrt{\frac{P_s}{10^{\text{SNR}_{\text{dB}}/10}}}" alt="SNR formula" /></td>
+    </tr>
+    <tr>
+      <td><strong>Baseline Wander (BW)</strong></td>
+      <td>Respiration, body movement, electrode drift</td>
+      <td><img style="vertical-align:middle;" src="https://latex.codecogs.com/svg.latex?\color{white}\Large%20n_{\text{BW}}(t)%20=%20A_{\text{bw}}\sin(2\pi%20f_{\text{resp}}%20t)" alt="BW" /><br>
+        <small style="color:#aaaaaa;">or multi-harmonic respiration model</small></td>
+    </tr>
+    <tr>
+      <td><strong>Powerline Interference (PLI)</strong></td>
+      <td>50/60 Hz electromagnetic coupling</td>
+      <td><img style="vertical-align:middle;" src="https://latex.codecogs.com/svg.latex?\color{white}\Large%20n_{\text{PL}}(t)=A_{\text{pl}}\sum_{k=1}^{H}c_k\sin(2\pi%20k%20f_{\text{pl}}%20t}%20+%20\phi_k)" alt="PLI" /></td>
+    </tr>
+    <tr>
+      <td><strong>Muscle Artifact (MA/EMG)</strong></td>
+      <td>Skeletal muscle contraction, tremor, shivering</td>
+      <td><img style="vertical-align:middle;" src="https://latex.codecogs.com/svg.latex?\color{white}\Large%20n_{\text{MA}}(t)%20=%20\sigma_{\text{ma}}(t)\cdot%20g(t)" alt="MA" /><br>
+        <img style="vertical-align:middle;" src="https://latex.codecogs.com/svg.latex?\color{white}\Large%20g(t):\%20\text{BPF\%2020-500\%20Hz\%20Gaussian}" alt="g(t)" /><br>
+        <img style="vertical-align:middle;" src="https://latex.codecogs.com/svg.latex?\color{white}\Large%20\sigma_{\text{ma}}(t):\%20\text{0.1-10\%20Hz\%20envelope}" alt="envelope" /></td>
+    </tr>
+    <tr>
+      <td><strong>Electrode Motion Artifact (EM)</strong></td>
+      <td>Skin stretching, loose contact, cable movement</td>
+      <td><img style="vertical-align:middle;" src="https://latex.codecogs.com/svg.latex?\color{white}\Large%20n_{\text{EM}}(t)%20=%20\sum_i%20A_i%20\left(e^{-(t-t_i)/\tau_1}%20-%20e^{-(t-t_i)/\tau_2}\right)" alt="EM" /><br>
+        <img style="vertical-align:middle;" src="https://latex.codecogs.com/svg.latex?\color{white}\Large%20\tau_1%20\gg%20\tau_2%20\text{%20(sharp%20rise%20+%20slow%20decay)}" alt="tau" /></td>
+    </tr>
+  </tbody>
+</table>
