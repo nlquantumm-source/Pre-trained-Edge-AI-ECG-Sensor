@@ -9,7 +9,7 @@
 * Use *Google Colab* when training AI model and generate API code for simple integration (Compatible for majority of the embedding engineers out there).<br />
 * Once you run the Google Colab in your computer, the trained model is going to be automatically downloaded in your computer.<br /><br />
 
-## Filtering Technique
+## Filter
 * *Bandpass Filter*: Removes DC baseline wander (low-frequency noise) and high-frequency artifacts from ECG signal.<br />
 * *Anti-aliasing Resampling*: Prevents aliasing during downsampling from 260 Hz to 250 Hz by implicit low-pass filtering in polyphase interpolation.<br />
 * *Additive Gaussian Noise*: Augments data by simulating sensor noise, improving model robustness without altering signal structure.<br />
